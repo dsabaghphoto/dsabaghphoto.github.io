@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSABAGH — Photographer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --white: #F5F3EF;
+    --sand: #C8B89A;
+    --ocean: #1B3A4B;
+    --accent: #D4956A;
+    --muted: #6B6560;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(212,149,106,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s ease, width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: difference;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 48px 80px;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 70% 50%, rgba(27,58,75,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(212,149,106,0.1) 0%, transparent 50%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    opacity: 0.15;
+  }
+
+  .hero-grid-item {
+    background: linear-gradient(180deg, transparent 60%, rgba(10,10,10,0.8) 100%);
+    overflow: hidden;
+  }
+
+  .hero-grid-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  .hero-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--sand);
+  }
+
+  .hero-sub {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-top: 24px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    right: 48px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+
+  .hero-scroll span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(245,243,239,0.7);
+    margin-bottom: 20px;
+  }
+
+  .about-text p strong {
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .stat-item {
+    border-top: 1px solid rgba(245,243,239,0.1);
+    padding-top: 20px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .about-image {
+    position: relative;
+    height: 500px;
+    background: var(--ocean);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .about-image::after {
+    content: 'YOUR PORTRAIT HERE';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(245,243,239,0.3);
+  }
+
+  /* PORTFOLIO GRID */
+  .portfolio {
+    background: #080808;
+  }
+
+  .portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+
+  .portfolio-filter {
+    display: flex;
+    gap: 24px;
+  }
+
+  .filter-btn {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    color: var(--white);
+    border-bottom-color: var(--accent);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+
+  .portfolio-item {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: #1a1a1a;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .portfolio-item:nth-child(1) { grid-column: span 2; aspect-ratio: auto; height: 500px; }
+  .portfolio-item:nth-child(5) { grid-column: span 2; aspect-ratio: auto; height: 400px; }
+
+  .portfolio-item-inner {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--ocean) 0%, #0d1f2a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portfolio-placeholder {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(245,243,239,0.2);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,10,10,0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+  .portfolio-overlay-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+  }
+
+  .portfolio-overlay-tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+
+  /* SERVICES */
+  .services {
+    background: var(--black);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .service-card {
+    background: #111;
+    padding: 40px 32px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .service-card:hover {
+    border-top-color: var(--accent);
+    background: #151515;
+  }
+
+  .service-icon {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .service-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+  }
+
+  .service-price span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* CONTACT */
+  .contact {
+    background: var(--ocean);
+    text-align: center;
+    padding: 120px 48px;
+  }
+
+  .contact .section-title {
+    font-size: clamp(3rem, 7vw, 6rem);
+    margin-bottom: 16px;
+  }
+
+  .contact-sub {
+    font-size: 13px;
+    color: rgba(245,243,239,0.5);
+    letter-spacing: 1px;
+    margin-bottom: 48px;
+  }
+
+  .contact-email {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--sand);
+    font-style: italic;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,184,154,0.3);
+    padding-bottom: 4px;
+    transition: border-color 0.3s;
+  }
+
+  .contact-email:hover { border-color: var(--sand); }
+
+  .contact-socials {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .contact-socials a {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245,243,239,0.4);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-socials a:hover { color: var(--white); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(245,243,239,0.05);
+  }
+
+  footer span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* SQUARESPACE GUIDE */
+  .guide {
+    background: #0d0d0d;
+    border-top: 1px solid rgba(245,243,239,0.05);
+    padding: 80px 48px;
+  }
+
+  .guide h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+
+  .guide-subtitle {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 48px;
+  }
+
+  .guide-steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .guide-step {
+    background: #141414;
+    border-radius: 4px;
+    padding: 28px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: rgba(212,149,106,0.2);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .step-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .step-desc {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .step-desc strong {
+    color: var(--sand);
+    font-weight: 400;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .portfolio-item:nth-child(1),
+    .portfolio-item:nth-child(5) { grid-column: span 2; height: 300px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .guide-steps { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">DSabagh</a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid">
+    <div class="hero-grid-item"></div>
+    <div class="hero-grid-item"></div>
+    <div class="hero-grid-item"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">Bristol · España · The World</p>
+    <h1 class="hero-title">Through<br>the <em>lens</em><br>of life</h1>
+    <p class="hero-sub">Food · Underwater · Wildlife · Portrait</p>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-text">
+    <p class="section-tag">About</p>
+    <h2 class="section-title">Chef.<br><em>Photographer.</em><br>Explorer.</h2>
+    <p>I'm David — a Spanish photographer based in Bristol with <strong>10 years of experience</strong> in the hospitality industry. My background as a professional chef gives me a unique eye for food: I don't just photograph dishes, I understand them.</p>
+    <p>From the depths of the ocean to the wild landscapes of Andalucía, I chase light, texture, and the moments between moments. Available for commercial, editorial and personal projects worldwide.</p>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Photography disciplines</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">UK</div>
+        <div class="stat-label">& International</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Remote availability</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-image"></div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <p class="section-tag">Selected Work</p>
+      <h2 class="section-title">Portfolio</h2>
+    </div>
+    <div class="portfolio-filter">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Food</button>
+      <button class="filter-btn">Underwater</button>
+      <button class="filter-btn">Wildlife</button>
+      <button class="filter-btn">Portrait</button>
+    </div>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <div class="portfolio-item-inner">
+        <div class="portfolio-placeholder">Duck breast with sauce<br>— Food Photography</div>
+      </div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-overlay-title">Fine Dining Series</div>
+        <div class="portfolio-overlay-tag">Food · Commercial</div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-item-inner" style="background: linear-gradient(135deg, #0a1628 0%, #1b3a4b 100%)">
+        <div class="portfolio-placeholder">Diver & shipwreck<br>— Underwater</div>
+      </div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-overlay-title">Into the Deep</div>
+        <div class="portfolio-overlay-tag">Underwater · Editorial</div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-item-inner" style="background: linear-gradient(135deg, #1a0f05 0%, #3d2010 100%)">
+        <div class="portfolio-placeholder">Sunset fisherman<br>— Landscape</div>
+      </div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-overlay-title">Golden Hour</div>
+        <div class="portfolio-overlay-tag">Landscape · Fine Art</div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-item-inner" style="background: linear-gradient(135deg, #0d1a10 0%, #1e3a22 100%)">
+        <div class="portfolio-placeholder">Deer in the wild<br>— Wildlife</div>
+      </div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-overlay-title">Wild England</div>
+        <div class="portfolio-overlay-tag">Wildlife · Nature</div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-item-inner" style="background: linear-gradient(135deg, #1a1015 0%, #2d1a20 100%)">
+        <div class="portfolio-placeholder">Portrait with mirror<br>— Portrait</div>
+      </div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-overlay-title">Reflections</div>
+        <div class="portfolio-overlay-tag">Portrait · Editorial</div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-item-inner" style="background: linear-gradient(135deg, #100a1a 0%, #1e1030 100%)">
+        <div class="portfolio-placeholder">Pink cocktail bar<br>— Drinks Photography</div>
+      </div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-overlay-title">Cocktail Hour</div>
+        <div class="portfolio-overlay-tag">Food & Drinks · Commercial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <p class="section-tag">What I offer</p>
+  <h2 class="section-title">Services</h2>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🍽️</div>
+      <div class="service-name">Food & Hospitality</div>
+      <p class="service-desc">Restaurant menus, brand campaigns, social media content and editorial food photography. My chef background means I understand every dish from the inside out.</p>
+      <div class="service-price">£250 <span>/ half day · from</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌊</div>
+      <div class="service-name">Underwater</div>
+      <p class="service-desc">Scuba diving schools, marine brands, editorial and conservation projects. Certified diver with specialist underwater photography training.</p>
+      <div class="service-price">£450 <span>/ session · from</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🦌</div>
+      <div class="service-name">Wildlife & Nature</div>
+      <p class="service-desc">Conservation organisations, nature magazines, tourism brands. Patient, ethical wildlife photography in natural environments across UK and Spain.</p>
+      <div class="service-price">£300 <span>/ session · from</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👤</div>
+      <div class="service-name">Portrait & Editorial</div>
+      <p class="service-desc">Personal branding, musicians, actors, fashion. Studio or location. Relaxed, creative sessions that bring out your authentic self.</p>
+      <div class="service-price">£200 <span>/ session · from</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏛️</div>
+      <div class="service-name">Venues & Events</div>
+      <p class="service-desc">Hotels, event spaces, wedding venues. Full venue photography packages for websites, brochures and marketing materials.</p>
+      <div class="service-price">£500 <span>/ day · from</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <div class="service-name">UGC & Social Content</div>
+      <p class="service-desc">Authentic content for food and lifestyle brands. Delivered ready-to-post for Instagram, TikTok and beyond. Available remotely from anywhere.</p>
+      <div class="service-price">£150 <span>/ piece · from</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <p class="section-tag">Get in touch</p>
+  <h2 class="section-title">Let's create<br><em>something</em></h2>
+  <p class="contact-sub">Available for projects in the UK, Spain and internationally</p>
+  <a href="mailto:david@dsabagh.com" class="contact-email">david@dsabagh.com</a>
+  <div class="contact-socials">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Contra</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 DSabagh Photography</span>
+  <span>Bristol, UK · Chipiona, España</span>
+</footer>
+
+<!-- SETUP GUIDE -->
+<div class="guide">
+  <h2>Squarespace Setup Guide</h2>
+  <p class="guide-subtitle">Pasos exactos para montar dsabagh.com esta semana</p>
+
+  <div class="guide-steps">
+    <div class="guide-step">
+      <div class="step-num">01</div>
+      <div class="step-title">ELEGIR TEMPLATE</div>
+      <p class="step-desc">Ve a squarespace.com → Plantillas → Fotografía. Usa <strong>"Palermo"</strong> o <strong>"Montauk"</strong> — ambas son oscuras, minimalistas y perfectas para tu estilo. Evita las blancas y coloridas.</p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">02</div>
+      <div class="step-title">DOMINIO</div>
+      <p class="step-desc">Compra <strong>dsabagh.com</strong> desde Squarespace (£20/año incluido en el plan). Si no está disponible, prueba <strong>dsabagh.co.uk</strong> o <strong>david-sabagh.com</strong>.</p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">03</div>
+      <div class="step-title">PÁGINAS A CREAR</div>
+      <p class="step-desc"><strong>Home</strong> — hero foto + frase<br><strong>Portfolio</strong> — galerías por nicho<br><strong>About</strong> — tu historia + foto tuya<br><strong>Services</strong> — precios como los de arriba<br><strong>Contact</strong> — formulario simple</p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">04</div>
+      <div class="step-title">FOTOS PARA LA HOME</div>
+      <p class="step-desc">Hero: <strong>el vertido de la salsa</strong> o el <strong>buceador con el pecio</strong>. Ambas son impactantes y dicen inmediatamente quién eres. Fondo oscuro = elegancia.</p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">05</div>
+      <div class="step-title">TEXTO HERO</div>
+      <p class="step-desc">Título: <strong>"Through the lens of life"</strong><br>Subtítulo: <strong>"Food · Underwater · Wildlife · Portrait"</strong><br>CTA: <strong>"View Work"</strong> → enlaza al portfolio</p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">06</div>
+      <div class="step-title">SEO BÁSICO</div>
+      <p class="step-desc">En cada página: Settings → SEO. Título: <strong>"DSabagh — Food & Commercial Photographer Bristol"</strong>. Descripción: <strong>"Professional photographer based in Bristol. Food, underwater, wildlife and portrait photography for restaurants, brands and agencies."</strong></p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">07</div>
+      <div class="step-title">EMAIL PROFESIONAL</div>
+      <p class="step-desc">Crea <strong>david@dsabagh.com</strong> desde Google Workspace (£5/mes) o usa Squarespace Email. Mucho más profesional que un Gmail para contactar clientes.</p>
+    </div>
+    <div class="guide-step">
+      <div class="step-num">08</div>
+      <div class="step-title">TIEMPO ESTIMADO</div>
+      <p class="step-desc">Con las fotos ya listas, montar la web completa te lleva <strong>un fin de semana</strong>. Sábado: estructura y fotos. Domingo: textos, SEO y publicar. El lunes ya tienes web.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
