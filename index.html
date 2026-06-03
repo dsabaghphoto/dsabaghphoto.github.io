@@ -92,9 +92,6 @@
 
   /* HERO */
   .hero {
-    <div class="hero-bg" style="background-image: url('images/hero.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: absolute; inset: 0; opacity: 0.6;"></div>
-    background-size: cover;
-    background-position: center;
     height: 100vh;
     position: relative;
     display: flex;
@@ -107,9 +104,18 @@
   .hero-bg {
     position: absolute;
     inset: 0;
-    background: 
-      radial-gradient(ellipse at 70% 50%, rgba(27,58,75,0.4) 0%, transparent 60%),
-      radial-gradient(ellipse at 20% 80%, rgba(212,149,106,0.1) 0%, transparent 50%);
+    background-image: url('images/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.55;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.75) 100%);
   }
 
   .hero-grid {
@@ -312,19 +318,20 @@
   }
 
   .portfolio-filter {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 8px;
-  white-space: nowrap;
-  justify-content: center;
-}
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+    white-space: nowrap;
+    justify-content: flex-end;
+    max-width: 100%;
+  }
 
-.portfolio-filter::-webkit-scrollbar {
-  display: none;
-}
+  .portfolio-filter::-webkit-scrollbar {
+    display: none;
+  }
 
   .filter-btn {
     font-size: 10px;
@@ -795,7 +802,7 @@
   <p class="contact-sub">Available for projects in the UK, Spain and internationally</p>
   <a href="mailto:dsabagh.photo@gmail.com" class="contact-email">dsabagh.photo@gmail.com</a>
   <div class="contact-socials">
-    <a href="https://www.instagram.com/dsabagh.photo" target="_blank">Instagram</a>
+    <a href="https://www.instagram.com/david.sabagh" target="_blank">Instagram</a>
     <a href="mailto:dsabagh.photo@gmail.com" target="_blank">Email</a>
     <a href="mailto:dsabagh.photo@gmail.com" target="_blank">Contact</a>
   </div>
@@ -807,54 +814,8 @@
   <span>Bristol, UK · Chipiona, España</span>
 </footer>
 
-<!-- SETUP GUIDE -->
-<div class="guide">
-  <h2>Squarespace Setup Guide</h2>
-  <p class="guide-subtitle">Pasos exactos para montar dsabagh.com esta semana</p>
 
-  <div class="guide-steps">
-    <div class="guide-step">
-      <div class="step-num">01</div>
-      <div class="step-title">ELEGIR TEMPLATE</div>
-      <p class="step-desc">Ve a squarespace.com → Plantillas → Fotografía. Usa <strong>"Palermo"</strong> o <strong>"Montauk"</strong> — ambas son oscuras, minimalistas y perfectas para tu estilo. Evita las blancas y coloridas.</p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">02</div>
-      <div class="step-title">DOMINIO</div>
-      <p class="step-desc">Compra <strong>dsabagh.com</strong> desde Squarespace (£20/año incluido en el plan). Si no está disponible, prueba <strong>dsabagh.co.uk</strong> o <strong>david-sabagh.com</strong>.</p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">03</div>
-      <div class="step-title">PÁGINAS A CREAR</div>
-      <p class="step-desc"><strong>Home</strong> — hero foto + frase<br><strong>Portfolio</strong> — galerías por nicho<br><strong>About</strong> — tu historia + foto tuya<br><strong>Services</strong> — precios como los de arriba<br><strong>Contact</strong> — formulario simple</p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">04</div>
-      <div class="step-title">FOTOS PARA LA HOME</div>
-      <p class="step-desc">Hero: <strong>el vertido de la salsa</strong> o el <strong>buceador con el pecio</strong>. Ambas son impactantes y dicen inmediatamente quién eres. Fondo oscuro = elegancia.</p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">05</div>
-      <div class="step-title">TEXTO HERO</div>
-      <p class="step-desc">Título: <strong>"Through the lens of life"</strong><br>Subtítulo: <strong>"Food · Underwater · Wildlife · Portrait"</strong><br>CTA: <strong>"View Work"</strong> → enlaza al portfolio</p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">06</div>
-      <div class="step-title">SEO BÁSICO</div>
-      <p class="step-desc">En cada página: Settings → SEO. Título: <strong>"DSabagh — Food & Commercial Photographer Bristol"</strong>. Descripción: <strong>"Professional photographer based in Bristol. Food, underwater, wildlife and portrait photography for restaurants, brands and agencies."</strong></p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">07</div>
-      <div class="step-title">EMAIL PROFESIONAL</div>
-      <p class="step-desc">Crea <strong>david@dsabagh.com</strong> desde Google Workspace (£5/mes) o usa Squarespace Email. Mucho más profesional que un Gmail para contactar clientes.</p>
-    </div>
-    <div class="guide-step">
-      <div class="step-num">08</div>
-      <div class="step-title">TIEMPO ESTIMADO</div>
-      <p class="step-desc">Con las fotos ya listas, montar la web completa te lleva <strong>un fin de semana</strong>. Sábado: estructura y fotos. Domingo: textos, SEO y publicar. El lunes ya tienes web.</p>
-    </div>
-  </div>
-</div>
+
 
 <script>
   // Custom cursor
