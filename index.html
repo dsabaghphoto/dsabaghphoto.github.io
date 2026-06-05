@@ -3,51 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DSABAGH — Photographer</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>David Sabagh — Photographer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0A0A0A;
-    --white: #F5F3EF;
+    --black: #080808;
+    --white: #F2EEE8;
     --sand: #C8B89A;
-    --ocean: #1B3A4B;
-    --accent: #D4956A;
+    --accent: #C8832A;
     --muted: #6B6560;
+    --dark2: #111;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
     background: var(--black);
     color: var(--white);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-weight: 300;
-    cursor: none;
-  }
-
-  /* CURSOR */
-  .cursor {
-    width: 8px; height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-    transform: translate(-50%, -50%);
-  }
-
-  .cursor-ring {
-    width: 32px; height: 32px;
-    border: 1px solid rgba(212,149,106,0.4);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.15s ease, width 0.3s, height 0.3s;
-    transform: translate(-50%, -50%);
   }
 
   /* NAV */
@@ -55,18 +30,18 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 28px 48px;
+    padding: 24px 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    mix-blend-mode: difference;
+    background: linear-gradient(180deg, rgba(8,8,8,0.9) 0%, transparent 100%);
   }
 
   .logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 300;
-    letter-spacing: 6px;
+    letter-spacing: 8px;
     color: var(--white);
     text-decoration: none;
     text-transform: uppercase;
@@ -82,84 +57,64 @@
     font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--white);
+    color: rgba(242,238,232,0.6);
     text-decoration: none;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    transition: color 0.3s;
   }
 
-  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover { color: var(--white); }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+  }
 
   /* HERO */
   .hero {
     height: 100vh;
     position: relative;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
     padding: 0 48px 80px;
     overflow: hidden;
-    background: var(--black);
   }
 
-  .hero-bg {
+  .hero-img {
     position: absolute;
     inset: 0;
     background-image: url('images/hero.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.55;
   }
 
-  .hero-bg::after {
-    content: '';
+  .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.75) 100%);
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    opacity: 0.15;
-  }
-
-  .hero-grid-item {
-    background: linear-gradient(180deg, transparent 60%, rgba(10,10,10,0.8) 100%);
-    overflow: hidden;
-  }
-
-  .hero-grid-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: grayscale(30%);
+    background: linear-gradient(180deg, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.75) 100%);
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 700px;
   }
 
   .hero-tag {
     font-size: 10px;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     opacity: 0;
     animation: fadeUp 1s ease 0.3s forwards;
   }
 
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(4rem, 10vw, 8rem);
+    font-size: clamp(3.5rem, 9vw, 7rem);
     font-weight: 300;
-    line-height: 0.9;
-    letter-spacing: -2px;
+    line-height: 0.95;
+    letter-spacing: -1px;
     opacity: 0;
     animation: fadeUp 1s ease 0.5s forwards;
   }
@@ -170,9 +125,9 @@
   }
 
   .hero-sub {
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(242,238,232,0.5);
     margin-top: 24px;
     text-transform: uppercase;
     opacity: 0;
@@ -187,6 +142,7 @@
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    z-index: 2;
     opacity: 0;
     animation: fadeUp 1s ease 1s forwards;
   }
@@ -201,40 +157,47 @@
 
   .scroll-line {
     width: 1px;
-    height: 60px;
+    height: 50px;
     background: linear-gradient(180deg, var(--accent), transparent);
     animation: scrollPulse 2s ease infinite;
   }
 
   @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; transform: scaleY(1); }
-    50% { opacity: 1; transform: scaleY(1.1); }
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* SECTIONS */
-  section {
-    padding: 100px 48px;
+  @media (max-width: 768px) {
+    .hero { padding: 0 24px 60px; }
+    .hero-scroll { display: none; }
   }
+
+  /* SECTIONS */
+  section { padding: 100px 48px; }
 
   .section-tag {
     font-size: 10px;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
     font-weight: 300;
     line-height: 1.1;
-    margin-bottom: 32px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 60px 24px; }
   }
 
   /* ABOUT */
@@ -247,32 +210,26 @@
   }
 
   .about-text p {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.9;
-    color: rgba(245,243,239,0.7);
-    margin-bottom: 20px;
+    color: rgba(242,238,232,0.65);
+    margin-bottom: 18px;
   }
 
-  .about-text p strong {
-    color: var(--white);
-    font-weight: 400;
-  }
+  .about-text p strong { color: var(--white); font-weight: 400; }
 
   .about-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    margin-top: 48px;
+    gap: 28px;
+    margin-top: 40px;
   }
 
-  .stat-item {
-    border-top: 1px solid rgba(245,243,239,0.1);
-    padding-top: 20px;
-  }
+  .stat-item { border-top: 1px solid rgba(242,238,232,0.08); padding-top: 16px; }
 
   .stat-num {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: var(--accent);
     line-height: 1;
   }
@@ -282,22 +239,29 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   .about-image {
-    position: relative;
-    height: 500px;
-    background: var(--ocean);
+    height: 550px;
     border-radius: 2px;
     overflow: hidden;
+    position: relative;
   }
 
-  
-  /* PORTFOLIO GRID */
-  .portfolio {
-    background: #080808;
+  .about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
+
+  @media (max-width: 768px) {
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .about-image { height: 400px; }
+  }
+
+  /* PORTFOLIO */
+  .portfolio { background: #060606; }
 
   .portfolio-header {
     display: flex;
@@ -310,30 +274,15 @@
 
   .portfolio-filter {
     display: flex;
-    gap: 24px;
+    gap: 20px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding-bottom: 8px;
+    padding-bottom: 4px;
     white-space: nowrap;
-    flex-shrink: 0;
-    max-width: 100%;
   }
 
-  .portfolio-filter::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media (max-width: 768px) {
-    .portfolio-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .portfolio-filter {
-      width: 100%;
-      justify-content: flex-start;
-    }
-  }
+  .portfolio-filter::-webkit-scrollbar { display: none; }
 
   .filter-btn {
     font-size: 10px;
@@ -346,6 +295,7 @@
     padding-bottom: 4px;
     border-bottom: 1px solid transparent;
     transition: all 0.3s;
+    flex-shrink: 0;
   }
 
   .filter-btn.active, .filter-btn:hover {
@@ -353,106 +303,166 @@
     border-bottom-color: var(--accent);
   }
 
-  .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
+  @media (max-width: 768px) {
+    .portfolio-header { flex-direction: column; align-items: flex-start; }
+    .portfolio-filter { width: 100%; }
   }
 
-  .portfolio-item {
+  /* MASONRY GRID */
+  .masonry {
+    columns: 3;
+    column-gap: 4px;
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 4px;
     position: relative;
-    aspect-ratio: 3/4;
-    background: #1a1a1a;
     overflow: hidden;
     cursor: pointer;
   }
 
-  .portfolio-item:nth-child(1) { grid-column: span 2; aspect-ratio: auto; height: 500px; }
-  .portfolio-item:nth-child(5) { grid-column: span 2; aspect-ratio: auto; height: 400px; }
-  .portfolio-item:nth-child(7) { grid-column: span 2; aspect-ratio: auto; height: 450px; }
-  .portfolio-item:nth-child(8) { grid-column: span 1; aspect-ratio: auto; height: 450px; }
-  .portfolio-item:nth-child(9) { grid-column: span 3; aspect-ratio: auto; height: 400px; }
-
-  .portfolio-item-inner {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--ocean) 0%, #0d1f2a 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .masonry-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.6s ease;
+    filter: brightness(0.92);
   }
 
-  .portfolio-placeholder {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: rgba(245,243,239,0.2);
-    text-transform: uppercase;
-    text-align: center;
-    padding: 20px;
+  .masonry-item:hover img {
+    transform: scale(1.04);
+    filter: brightness(0.7);
   }
 
-  .portfolio-overlay {
+  .masonry-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(10,10,10,0.7);
+    background: linear-gradient(180deg, transparent 50%, rgba(8,8,8,0.85) 100%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 28px;
+    padding: 20px;
     opacity: 0;
     transition: opacity 0.4s ease;
   }
 
-  .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+  .masonry-item:hover .masonry-overlay { opacity: 1; }
 
-  .portfolio-overlay-title {
+  .masonry-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     font-style: italic;
+    color: var(--white);
   }
 
-  .portfolio-overlay-tag {
-    font-size: 10px;
+  .masonry-tag {
+    font-size: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--accent);
-    margin-top: 4px;
+    margin-top: 3px;
   }
 
-  /* SERVICES */
-  .services {
-    background: var(--black);
+  @media (max-width: 768px) {
+    .masonry { columns: 2; }
   }
+
+  @media (max-width: 480px) {
+    .masonry { columns: 1; }
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,8,0.97);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-height: 75vh;
+    max-width: 90vw;
+    object-fit: contain;
+    border-radius: 2px;
+  }
+
+  .lightbox-info {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .lightbox-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--white);
+  }
+
+  .lightbox-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 6px;
+  }
+
+  .lightbox-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 500px;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-size: 28px;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.3s;
+    line-height: 1;
+  }
+
+  .lightbox-close:hover { color: var(--white); }
+
+  /* SERVICES */
+  .services { background: var(--black); }
 
   .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
-    margin-top: 48px;
   }
 
   .service-card {
-    background: #111;
-    padding: 40px 32px;
+    background: var(--dark2);
+    padding: 36px 28px;
     border-top: 2px solid transparent;
     transition: border-color 0.3s, background 0.3s;
   }
 
   .service-card:hover {
     border-top-color: var(--accent);
-    background: #151515;
+    background: #161616;
   }
 
-  .service-icon {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-  }
+  .service-icon { font-size: 1.6rem; margin-bottom: 16px; }
 
   .service-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 300;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .service-desc {
@@ -464,39 +474,43 @@
 
   .service-price {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: var(--accent);
   }
 
   .service-price span {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
     color: var(--muted);
     letter-spacing: 1px;
   }
 
+  @media (max-width: 768px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+
   /* CONTACT */
   .contact {
-    background: var(--ocean);
+    background: #0d1e28;
     text-align: center;
     padding: 120px 48px;
   }
 
   .contact .section-title {
-    font-size: clamp(3rem, 7vw, 6rem);
-    margin-bottom: 16px;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    margin-bottom: 12px;
   }
 
   .contact-sub {
-    font-size: 13px;
-    color: rgba(245,243,239,0.5);
+    font-size: 12px;
+    color: rgba(242,238,232,0.4);
     letter-spacing: 1px;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
 
   .contact-email {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
     color: var(--sand);
     font-style: italic;
     text-decoration: none;
@@ -511,14 +525,14 @@
     display: flex;
     justify-content: center;
     gap: 32px;
-    margin-top: 48px;
+    margin-top: 40px;
   }
 
   .contact-socials a {
     font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(245,243,239,0.4);
+    color: rgba(242,238,232,0.35);
     text-decoration: none;
     transition: color 0.3s;
   }
@@ -528,100 +542,22 @@
   /* FOOTER */
   footer {
     background: var(--black);
-    padding: 32px 48px;
+    padding: 28px 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(245,243,239,0.05);
+    border-top: 1px solid rgba(242,238,232,0.04);
   }
 
-  footer span {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
-  }
+  footer span { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
 
-  /* SQUARESPACE GUIDE */
-  .guide {
-    background: #0d0d0d;
-    border-top: 1px solid rgba(245,243,239,0.05);
-    padding: 80px 48px;
-  }
-
-  .guide h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    margin-bottom: 8px;
-    color: var(--accent);
-  }
-
-  .guide-subtitle {
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 48px;
-  }
-
-  .guide-steps {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-
-  .guide-step {
-    background: #141414;
-    border-radius: 4px;
-    padding: 28px;
-    border-left: 2px solid var(--accent);
-  }
-
-  .step-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem;
-    color: rgba(212,149,106,0.2);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .step-title {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    color: var(--white);
-  }
-
-  .step-desc {
-    font-size: 12px;
-    line-height: 1.8;
-    color: var(--muted);
-  }
-
-  .step-desc strong {
-    color: var(--sand);
-    font-weight: 400;
-  }
-
-  /* RESPONSIVE */
   @media (max-width: 768px) {
-    nav { padding: 20px 24px; }
-    .nav-links { display: none; }
-    section { padding: 60px 24px; }
-    .about { grid-template-columns: 1fr; gap: 40px; }
-    .portfolio-grid { grid-template-columns: 1fr 1fr; }
-    .portfolio-item:nth-child(1),
-    .portfolio-item:nth-child(5) { grid-column: span 2; height: 300px; }
-    .services-grid { grid-template-columns: 1fr; }
-    .guide-steps { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
+    footer { flex-direction: column; gap: 8px; text-align: center; padding: 24px; }
+    .contact { padding: 80px 24px; }
   }
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
 <nav>
@@ -636,12 +572,8 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg" style="background-image: url('images/hero.jpg'); background-size: cover; background-position: center; position: absolute; inset: 0; opacity: 0.6;"></div>
-  <div class="hero-grid">
-    <div class="hero-grid-item"></div>
-    <div class="hero-grid-item"></div>
-    <div class="hero-grid-item"></div>
-  </div>
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-tag">Bristol · España · The World</p>
     <h1 class="hero-title">Through<br>the <em>lens</em><br>of life</h1>
@@ -658,7 +590,8 @@
   <div class="about-text">
     <p class="section-tag">About</p>
     <h2 class="section-title">Chef.<br><em>Photographer.</em><br>Explorer.</h2>
-    <p>I'm David — a Spanish photographer based in Bristol with 10 years of experience in the hospitality industry. Born in Chipiona, Cádiz. My background as a professional chef gives me a unique eye for food: I don't just photograph dishes, I understand them. From the depths of the ocean to the wild landscapes of Andalucía, I chase light, texture, and the moments between moments. Available for commercial, editorial and personal projects worldwide.</p>
+    <p>I'm David — a Spanish photographer based in Bristol with <strong>10 years of experience</strong> in the hospitality industry. Born in Chipiona, Cádiz. My background as a professional chef gives me a unique eye for food: I don't just photograph dishes, I understand them.</p>
+    <p>From the depths of the ocean to the wild landscapes of Andalucía, I chase light, texture, and the moments between moments. Available for commercial, editorial and personal projects worldwide.</p>
     <div class="about-stats">
       <div class="stat-item">
         <div class="stat-num">10+</div>
@@ -666,7 +599,7 @@
       </div>
       <div class="stat-item">
         <div class="stat-num">5</div>
-        <div class="stat-label">Photography disciplines</div>
+        <div class="stat-label">Disciplines</div>
       </div>
       <div class="stat-item">
         <div class="stat-num">UK</div>
@@ -674,124 +607,139 @@
       </div>
       <div class="stat-item">
         <div class="stat-num">∞</div>
-        <div class="stat-label">Remote availability</div>
+        <div class="stat-label">Remote available</div>
       </div>
     </div>
   </div>
-<div class="about-image" style="background: none;">
-  <img src="images/profile.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:2px;">
-</div></section>
+  <div class="about-image">
+    <img src="images/profile.jpg" alt="David Sabagh">
+  </div>
+</section>
 
 <!-- PORTFOLIO -->
 <section class="portfolio" id="portfolio">
   <div class="portfolio-header">
     <div>
       <p class="section-tag">Selected Work</p>
-      <h2 class="section-title">Portfolio</h2>
+      <h2 class="section-title" style="margin-bottom:0">Portfolio</h2>
     </div>
     <div class="portfolio-filter">
-      <button class="filter-btn active">All</button>
-      <button class="filter-btn">Food</button>
-      <button class="filter-btn">Underwater</button>
-      <button class="filter-btn">Wildlife</button>
-      <button class="filter-btn">Portrait</button>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="food">Food</button>
+      <button class="filter-btn" data-filter="underwater">Underwater</button>
+      <button class="filter-btn" data-filter="wildlife">Wildlife</button>
+      <button class="filter-btn" data-filter="portrait">Portrait</button>
     </div>
   </div>
 
-  <div class="portfolio-grid">
-    <div class="portfolio-item">
-      <div class="portfolio-item-inner">
-  		  <img src="images/food1.jpg" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Fine Dining Series</div>
-        <div class="portfolio-overlay-tag">Food · Commercial</div>
+  <div class="masonry" id="masonry">
+    <div class="masonry-item" data-category="food" data-title="Fine Dining Series" data-tag="Food · Commercial" data-desc="Duck breast with seasonal garnish and rich game jus. Fine dining food photography for restaurant menus and brand campaigns.">
+      <img src="images/food1.jpg" alt="Fine Dining">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Fine Dining Series</div>
+        <div class="masonry-tag">Food · Commercial</div>
       </div>
     </div>
-    <div class="portfolio-item">
-        <div class="portfolio-item-inner">
-           <img src="images/underwater1.jpg" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Into the Deep</div>
-        <div class="portfolio-overlay-tag">Underwater · Editorial</div>
+    <div class="masonry-item" data-category="underwater" data-title="Into the Deep" data-tag="Underwater · Editorial" data-desc="Diver exploring a shipwreck off the coast of the Philippines. Underwater photography combining technical skill and artistic vision.">
+      <img src="images/underwater1.jpg" alt="Underwater">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Into the Deep</div>
+        <div class="masonry-tag">Underwater · Editorial</div>
       </div>
     </div>
-    <div class="portfolio-item">
-      <div class="portfolio-item-inner">
-                  <img src="images/landscape1.jpg" style="width:100%;height:100%;object-fit:cover;">
-               </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Golden Hour</div>
-        <div class="portfolio-overlay-tag">Landscape · Fine Art</div>
+    <div class="masonry-item" data-category="wildlife" data-title="Dreaming" data-tag="Wildlife · Nature" data-desc="Two macaque monkeys resting on ancient ruins in the Philippines. A moment of stillness and curiosity captured with natural light and a low angle.">
+      <img src="images/wildlife1.jpg" alt="Monkeys">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Dreaming</div>
+        <div class="masonry-tag">Wildlife · Nature</div>
       </div>
     </div>
-    <div class="portfolio-item">
-      <div class="portfolio-item-inner">
-                   <img src="images/portrait1.jpg" style="width:100%;height:100%;object-fit:cover;">
-              </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Wild England</div>
-        <div class="portfolio-overlay-tag">Wildlife · Nature</div>
+    <div class="masonry-item" data-category="food" data-title="Cocktail Hour" data-tag="Food & Drinks · Commercial" data-desc="Pink gin cocktail with thyme garnish at a Bristol bar. Drinks photography for bars, restaurants and spirits brands.">
+      <img src="images/food2.jpg" alt="Cocktail">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Cocktail Hour</div>
+        <div class="masonry-tag">Food & Drinks · Commercial</div>
       </div>
     </div>
-    <div class="portfolio-item">
-      <div class="portfolio-item-inner">
-                  <img src="images/food2.jpg" style="width:100%;height:100%;object-fit:cover;">
-                 </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Reflections</div>
-        <div class="portfolio-overlay-tag">Portrait · Editorial</div>
+    <div class="masonry-item" data-category="portrait" data-title="Reflections" data-tag="Portrait · Editorial" data-desc="Editorial portrait using reflective surfaces to create depth and narrative. Natural light, outdoor location.">
+      <img src="images/portrait1.jpg" alt="Portrait">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Reflections</div>
+        <div class="masonry-tag">Portrait · Editorial</div>
       </div>
     </div>
-    <div class="portfolio-item">
-     <div class="portfolio-item-inner">
-              <img src="images/drinks1.jpg" style="width:100%;height:100%;object-fit:cover;">
-           </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Cocktail Hour</div>
-        <div class="portfolio-overlay-tag">Food & Drinks · Commercial</div>
+    <div class="masonry-item" data-category="underwater" data-title="Ocean Floor" data-tag="Underwater · Editorial" data-desc="Diver resting on the sandy ocean floor, shot from above. Available light underwater photography in the Mediterranean.">
+      <img src="images/underwater2.jpg" alt="Ocean Floor">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Ocean Floor</div>
+        <div class="masonry-tag">Underwater · Editorial</div>
+      </div>
+    </div>
+    <div class="masonry-item" data-category="food" data-title="Nature on a Plate" data-tag="Food · Editorial" data-desc="Stuffed ornamental squash served as a vegetarian main course. Food photography that celebrates the beauty of seasonal produce.">
+      <img src="images/food3.jpg" alt="Squash">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Nature on a Plate</div>
+        <div class="masonry-tag">Food · Editorial</div>
+      </div>
+    </div>
+    <div class="masonry-item" data-category="wildlife" data-title="Wild England" data-tag="Wildlife · Nature" data-desc="Red deer grazing at dusk in the English countryside. Patient, ethical wildlife photography in natural environments.">
+      <img src="images/wildlife2.jpg" alt="Deer">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Wild England</div>
+        <div class="masonry-tag">Wildlife · Nature</div>
+      </div>
+    </div>
+    <div class="masonry-item" data-category="portrait" data-title="Bristol Riots" data-tag="Documentary · Editorial" data-desc="Documenting the Bristol Kill the Bill protests of 2021. Front-line photojournalism capturing a historic moment in the city.">
+      <img src="images/street1.jpg" alt="Bristol Riots">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Bristol Riots</div>
+        <div class="masonry-tag">Documentary · Editorial</div>
+      </div>
+    </div>
+    <div class="masonry-item" data-category="underwater" data-title="Midnight Pufferfish" data-tag="Underwater · Wildlife" data-desc="Giant pufferfish resting on the ocean floor during a night dive. Rare encounter captured with available light and patience.">
+      <img src="images/underwater3.jpg" alt="Pufferfish">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Midnight Pufferfish</div>
+        <div class="masonry-tag">Underwater · Wildlife</div>
+      </div>
+    </div>
+    <div class="masonry-item" data-category="wildlife" data-title="Baby Eyes" data-tag="Wildlife · Nature" data-desc="Portrait of a young peachick staring directly into the lens. Shot with a 50mm at f/1.4 to isolate the subject and reveal every feather detail.">
+      <img src="images/wildlife3.jpg" alt="Peachick">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Baby Eyes</div>
+        <div class="masonry-tag">Wildlife · Nature</div>
+      </div>
+    </div>
+    <div class="masonry-item" data-category="portrait" data-title="Eating the Moon" data-tag="Street · Fine Art" data-desc="A seagull appears to swallow the moon over Bristol's skyline. A one-in-a-million alignment captured on a winter evening in the city.">
+      <img src="images/street2.jpg" alt="Seagull moon">
+      <div class="masonry-overlay">
+        <div class="masonry-title">Eating the Moon</div>
+        <div class="masonry-tag">Street · Fine Art</div>
       </div>
     </div>
   </div>
 </section>
-<div class="portfolio-item">
-      <div class="portfolio-item-inner">
-        <img src="images/wildlife1.jpg" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Wild England</div>
-        <div class="portfolio-overlay-tag">Wildlife · Nature</div>
-      </div>
-    </div>
-    <div class="portfolio-item">
-      <div class="portfolio-item-inner">
-        <img src="images/street1.jpg" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Bristol Riots</div>
-        <div class="portfolio-overlay-tag">Documentary · Editorial</div>
-      </div>
-    </div>
-    <div class="portfolio-item">
-      <div class="portfolio-item-inner">
-        <img src="images/underwater2.jpg" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="portfolio-overlay">
-        <div class="portfolio-overlay-title">Ocean Floor</div>
-        <div class="portfolio-overlay-tag">Underwater · Editorial</div>
-      </div>
-    </div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-info">
+    <div class="lightbox-title" id="lightboxTitle"></div>
+    <div class="lightbox-tag" id="lightboxTag"></div>
+    <div class="lightbox-desc" id="lightboxDesc"></div>
+  </div>
+</div>
+
 <!-- SERVICES -->
 <section class="services" id="services">
   <p class="section-tag">What I offer</p>
   <h2 class="section-title">Services</h2>
-
   <div class="services-grid">
     <div class="service-card">
       <div class="service-icon">🍽️</div>
       <div class="service-name">Food & Hospitality</div>
-      <p class="service-desc">Restaurant menus, brand campaigns, social media content and editorial food photography. My chef background means I understand every dish from the inside out.</p>
+      <p class="service-desc">Restaurant menus, brand campaigns, social media content. My chef background means I understand every dish from the inside out.</p>
       <div class="service-price">£250 <span>/ half day · from</span></div>
     </div>
     <div class="service-card">
@@ -803,13 +751,13 @@
     <div class="service-card">
       <div class="service-icon">🦌</div>
       <div class="service-name">Wildlife & Nature</div>
-      <p class="service-desc">Conservation organisations, nature magazines, tourism brands. Patient, ethical wildlife photography in natural environments across UK and Spain.</p>
+      <p class="service-desc">Conservation organisations, nature magazines, tourism brands. Patient, ethical wildlife photography across UK and Spain.</p>
       <div class="service-price">£300 <span>/ session · from</span></div>
     </div>
     <div class="service-card">
       <div class="service-icon">👤</div>
       <div class="service-name">Portrait & Editorial</div>
-      <p class="service-desc">Personal branding, musicians, actors, fashion. Studio or location. Relaxed, creative sessions that bring out your authentic self.</p>
+      <p class="service-desc">Personal branding, musicians, actors, fashion. Studio or location. Relaxed creative sessions that bring out your authentic self.</p>
       <div class="service-price">£200 <span>/ session · from</span></div>
     </div>
     <div class="service-card">
@@ -821,7 +769,7 @@
     <div class="service-card">
       <div class="service-icon">📱</div>
       <div class="service-name">UGC & Social Content</div>
-      <p class="service-desc">Authentic content for food and lifestyle brands. Delivered ready-to-post for Instagram, TikTok and beyond. Available remotely from anywhere.</p>
+      <p class="service-desc">Authentic content for food and lifestyle brands. Delivered ready-to-post for Instagram and TikTok. Available remotely from anywhere.</p>
       <div class="service-price">£150 <span>/ piece · from</span></div>
     </div>
   </div>
@@ -834,50 +782,74 @@
   <p class="contact-sub">Available for projects in the UK, Spain and internationally</p>
   <a href="mailto:dsabagh.photo@gmail.com" class="contact-email">dsabagh.photo@gmail.com</a>
   <div class="contact-socials">
-    <a href="https://www.instagram.com/dsabagh.photo" target="_blank">Instagram</a>
-    <a href="mailto:dsabagh.photo@gmail.com" target="_blank">Email</a>
-    <a href="mailto:dsabagh.photo@gmail.com" target="_blank">Contact</a>
+    <a href="https://www.instagram.com/david.sabagh" target="_blank">Instagram</a>
+    <a href="mailto:dsabagh.photo@gmail.com">Email</a>
+    <a href="mailto:dsabagh.photo@gmail.com">Contact</a>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <span>© 2026 DSabagh Photography</span>
+  <span>© 2026 David Sabagh Photography</span>
   <span>Bristol, UK · Chipiona, España</span>
 </footer>
 
-
-
-
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mouseX = 0, mouseY = 0;
-  let ringX = 0, ringY = 0;
+  // Portfolio filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.masonry-item');
 
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursor.style.left = mouseX + 'px';
-    cursor.style.top = mouseY + 'px';
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
   });
 
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.12;
-    ringY += (mouseY - ringY) * 0.12;
-    ring.style.left = ringX + 'px';
-    ring.style.top = ringY + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxTag = document.getElementById('lightboxTag');
+  const lightboxDesc = document.getElementById('lightboxDesc');
+  const lightboxClose = document.getElementById('lightboxClose');
 
-  // Filter buttons
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      lightboxImg.src = img.src;
+      lightboxTitle.textContent = item.dataset.title;
+      lightboxTag.textContent = item.dataset.tag;
+      lightboxDesc.textContent = item.dataset.desc;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
     });
+  });
+
+  lightboxClose.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   });
 </script>
 </body>
